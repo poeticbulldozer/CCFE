@@ -6,11 +6,12 @@
 
     HOW TO INSTALL?
     To get this criteria working with Elite Observatory:
-        - Save the file somewhere on your hard drive
-        - Open Elite Observatory
-        - Right click on the "Explorer" tab and then on "Explorer Settings"
-        - Check "Enable Custom Criteria" at the bottom of the window
-        - In the "Custom Criteria File" box, click "Browse" and point it to this file on your hard drive.
+        - Go to https://github.com/poeticbulldozer/CCFE/releases/latest
+		- Download the file called "Custom.Criteria.For.Everyone.lua" and save it somewhere on your hard drive.
+        - Open Elite Observatory.
+        - Right click on the "Explorer" tab and then on "Explorer Settings".
+        - Check "Enable Custom Criteria" at the bottom of the window.
+        - In the "Custom Criteria File" box, click "Browse" and point it to the file you downloaded to your hard drive.
 
     DUPLICATE CRITERIA (NATIVE)
     The following criteria are also included in Observatory Core by default, and should be disabled 
