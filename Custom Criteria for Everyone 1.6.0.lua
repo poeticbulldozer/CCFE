@@ -1312,7 +1312,7 @@ if triggerForHighIncLandableRingProx then
 
                 local withAtmosphere = scan.Atmosphere ~= "" and (" // " .. scan.Atmosphere) or ""
 
-                return  string.format("High orbital inclination (%.0f°)\nClose to ringed parent(%.2f LS)\nLandable %s", scan.OrbitalInclination, adjustedAxis, withAtmosphere),
+                return  string.format("High orbital inclination (%.0f°)\nClose to ringed parent (%.2f LS)\nLandable %s", scan.OrbitalInclination, adjustedAxis, withAtmosphere),
                         string.format("Body Type: %s\nSurface temperature: %.0f K", scan.PlanetClass, scan.SurfaceTemperature)
             end
         end
