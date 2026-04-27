@@ -14,7 +14,7 @@
     Extra special thanks to:
     -Vithigar: for developing and maintaining Elite Observatory;
 	-CMDR Duvel McMuttons, who singlehandedly did a full revision on the file to bring it up to
-		the Observatory 2.0	standard in version 1.6.0;
+		the Observatory 1.0	standard in version 1.6.0;
     -Matt G, DaftMav and fjk: for your variety of extensions and criteria, for many very interesting 
         conversations and thought experiments, and for being just so darn friendly and helpful;
     -Eahlstan, MariettaGecko,  Andrew Gaspurr, Arcanic, Spacetrash67 and many others, for 
