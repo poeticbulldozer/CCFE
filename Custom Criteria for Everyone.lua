@@ -63,6 +63,12 @@
 		- 4.7 Landable with high angular diameter (AstroAnalytica version preferred)
 		- 4.8 Landable with high gravity
 
+    DUPLICATE CRITERIA (GEOPREDICTOR)
+    The following criteria are also covered by the GeoPredictor plugin. If you are running that plugin,
+    disable the following criteria in this file:
+        
+        - 4.1: Geological signals
+
     CHECK THE CONFIGS!
     Below the table of contents in this file, there is a config option for every criteria in the section 
     called GLOBAL. If you don't want one or more criteria to trigger, you can disable them. All criteria 
