@@ -1,6 +1,6 @@
 -- CUSTOM CRITERIA FOR EVERYONE
 -- Compiled and maintained by CMDR Julian Ford
--- v1.6.1 / July 27, 2026
+-- v1.6.2 / Released July 27, 2026
 
 --[[Elite Observatory is a phenomenal tool for exploring in Elite Dangerous, and it is all the better
     because we get to write our own custom criteria, which supplement the default criteria in the app
@@ -343,10 +343,10 @@ LANDABLES, ATMOSPHERES AND SIGNALS
 ------------------------
 ------------------------
 
---------------------
--- 3.1: MASSIVE RING
---------------------
---[[Triggers a notification for any ring larger than ringWidthThreshold (in trillions of megatonnes). 
+------------------------------
+-- 3.1: MASSIVE AND WIDE RINGS
+------------------------------
+--[[Triggers a notification for any ring more massive than ringMassThreshold (in trillions of megatonnes). 
     Think big. 1 trillion megatonnes will net you thousands of rings. I settled on 10 trillion as the 
     default threshold with all rings active. Rocky rings seem the most commonly massive, followed 
     by metal rich, followed by icy. Turning off rocky rings will likely decrease your results 
@@ -356,6 +356,12 @@ LANDABLES, ATMOSPHERES AND SIGNALS
     ringMassThreshold = 10
             -- example: 10 == ten trillion megatonnes, or 10,000,000,000,000
 
+--If you also want notifications to be triggered by wide rings exceeding a certain outer radius, set the below to true.
+--  Rings exceeding the outer radius threshold (in millions of km) will then be labeled as a wide ring.
+    triggerForWideRing = true
+    ringOuterRadThreshold = 5
+            -- example: 5 == 5 million kilometers, or 5,000,000
+
 --If you only want certain ring types to be called, change the appropriate "true" to "false" to 
 --  exclude a specific ring type from triggering the notification.
     largeRingTypes = {
@@ -364,6 +370,7 @@ LANDABLES, ATMOSPHERES AND SIGNALS
         ["eRingClass_MetalRich"] = true, --Metal Rich rings
           ["eRingClass_Metalic"] = true  --Metallic rings
     }
+
 
 -------------------------------------------------------
 -- 3.2: NARROW RING GAP WITH HIGH ROTATIONAL DIFFERENCE
@@ -1086,12 +1093,16 @@ end
 -----------------------------
 ---@Complex 3.1: MASSIVE RING
 -----------------------------
-if triggerForMassiveRing then
+if triggerForMassiveRing or triggerForWideRing then
     if hasRings(scan.Rings) then
         for ring in ringsOnly(scan.Rings) do
-            if math.floor(ring.massmt) >= (ringMassThreshold * 1000000000000) and largeRingTypes[ring.ringclass] then
+
+            local massiveRing = triggerForMassiveRing and (math.floor(ring.massmt) >= (ringMassThreshold * 1000000000000))
+            local wideRing = triggerForWideRing and (math.floor(ring.outerrad) >= (ringOuterRadThreshold * 1000000000))
+
+            if (massiveRing or wideRing) and largeRingTypes[ring.ringclass] then
                 local ringType = ""
-                local ringDiameter = distanceAsLs(ring.outerrad * 2)
+                local ringRadius = distanceAsLs(ring.outerrad)
                 local ringWidth = distanceAsLs(ring.outerrad - ring.innerrad)
                 local ringMass = math.floor(ring.massmt / 1000)
                 if ring.ringclass == "eRingClass_Icy" then
@@ -1104,10 +1115,21 @@ if triggerForMassiveRing then
                     ringType = "Metallic"
                 end
 
-                return  string.format("Massive ring (%s)", ringType), 
-                        string.format("%s\nRing type: %s // Mass: %s Gt\nDiameter: %.2f LS // Width: %.2f LS",
-                            ring.name, ringType, formatNumber(ringMass), ringDiameter, ringWidth)
+                if massiveRing and wideRing then
+                    return  string.format("Massive and wide ring (%s)", ringType), 
+                            string.format("%s\nRing type: %s // Mass: %s Gt\nRadius: %.2f Ls // Width: %.2f Ls",
+                                ring.name, ringType, formatNumber(ringMass), ringRadius, ringWidth)
+                elseif massiveRing then
+                    return  string.format("Massive ring (%s)", ringType), 
+                            string.format("%s\nRing type: %s // Mass: %s Gt\nRadius: %.2f Ls // Width: %.2f Ls",
+                                ring.name, ringType, formatNumber(ringMass), ringRadius, ringWidth)
+                else -- wide ring
+                    return  string.format("Wide ring (%s)", ringType), 
+                            string.format("%s\nRing type: %s // Mass: %s Gt\nRadius: %.2f Ls // Width: %.2f Ls",
+                                ring.name, ringType, formatNumber(ringMass), ringRadius, ringWidth)
+                end
             end
+
         end
     end
 end
